@@ -1,0 +1,181 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/wbyoung/gulp-define-module">gulp-define-module (v0.1.5)</a>
+</h1>
+<h4>gulp.js plugin for creating modules</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-define-module">module gulp-define-module</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-define-module.gulp-define-module">
+            function <span class="apidocSignatureSpan"></span>gulp-define-module
+            <span class="apidocSignatureSpan">(type, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-define-module.toString">
+            function <span class="apidocSignatureSpan">gulp-define-module.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-define-module" id="apidoc.module.gulp-define-module">module gulp-define-module</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-define-module.gulp-define-module" id="apidoc.element.gulp-define-module.gulp-define-module">
+        function <span class="apidocSignatureSpan"></span>gulp-define-module
+        <span class="apidocSignatureSpan">(type, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-define-module = function (type, options) {
+  return through(function(file) {
+    if (file.isNull()) { return this.queue(file); } // pass along
+    if (file.isStream()) { return this.emit('error', new gutil.PluginError('gulp-define-module', 'Streaming not supported')); }
+
+    var opts = _.defaults({}, options, file.defineModuleOptions);
+    opts.context = _([file.defineModuleOptions, options])
+      .filter(_.identity).pluck('context')
+      .filter(_.identity).value();
+    opts.require = _.merge.apply(null, _([file.defineModuleOptions, options, { require: {} }])
+      .filter(_.identity).pluck('require')
+      .filter(_.identity).value());
+
+    var contents = file.contents.toString();
+    var name = path.basename(file.path, path.extname(file.path));
+    var context = {
+      name: name,
+      file: file,
+      contents: contents
+    };
+    if (opts.wrapper) {
+      opts.context.forEach(function(extensions) {
+        if (!extensions) { return; }
+        if (typeof extensions === 'function') {
+          extensions = extensions(context);
+        }
+        _.merge(context, _(extensions).map(function(value, key) {
+          return [key, _.template(value)(context)];
+        }).object().value());
+      });
+
+      contents = _.template(opts.wrapper)(context);
+    }
+
+    if (type === 'amd') { contents = makeAMD(contents, file.path, opts); }
+    else if (type === 'commonjs' || type === 'node') { contents = makeCommonJS(contents, file.path, opts); }
+    else if (type === 'hybrid') { contents = makeHybrid(contents, file.path, opts); }
+    else if (type === 'plain') { contents = makePlain(contents, file.path, opts); }
+    else if (type === 'es6') { contents = makeEs6(contents, file.path, opts); }
+    else {
+      throw new Error('Unsupported module type for gulp-define-module: ' + type);
+    }
+
+    file.path = gutil.replaceExtension(file.path, '.js');
+    file.contents = new Buffer(contents);
+    this.queue(file);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-define-module.toString" id="apidoc.element.gulp-define-module.toString">
+        function <span class="apidocSignatureSpan">gulp-define-module.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+opts.context = _([file.defineModuleOptions, options])
+  .filter(_.identity).pluck('context')
+  .filter(_.identity).value();
+opts.require = _.merge.apply(null, _([file.defineModuleOptions, options, { require: {} }])
+  .filter(_.identity).pluck('require')
+  .filter(_.identity).value());
+
+var contents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>();
+var name = path.basename(file.path, path.extname(file.path));
+var context = {
+  name: name,
+  file: file,
+  contents: contents
+};
+if (opts.wrapper) {
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
