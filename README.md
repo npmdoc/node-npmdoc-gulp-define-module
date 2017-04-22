@@ -1,4 +1,7 @@
-# api documentation for  [gulp-define-module (v0.1.5)](https://github.com/wbyoung/gulp-define-module)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-define-module.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-define-module) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-define-module.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-define-module)
+# npmdoc-gulp-define-module
+
+#### api documentation for  [gulp-define-module (v0.1.5)](https://github.com/wbyoung/gulp-define-module)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-define-module.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-define-module) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-define-module.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-define-module)
+
 #### gulp.js plugin for creating modules
 
 [![NPM](https://nodei.co/npm/gulp-define-module.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-define-module)
@@ -66,7 +69,8 @@
     "scripts": {
         "test": "istanbul cover ./node_modules/.bin/_mocha --report $(if [ \"$TRAVIS\" ]; then echo lcovonly; else echo html; fi) -- && if [ \"$TRAVIS\" ]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi"
     },
-    "version": "0.1.5"
+    "version": "0.1.5",
+    "bin": {}
 }
 ```
 
