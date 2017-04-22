@@ -63,15 +63,6 @@
 
         </li>
 
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.gulp-define-module.toString">
-            function <span class="apidocSignatureSpan">gulp-define-module.</span>toString
-            <span class="apidocSignatureSpan">()</span>
-            </a>
-
-        </li>
-
     </ol></li>
 
 </ol></div>
@@ -136,37 +127,6 @@
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-
-    <h2>
-        <a href="#apidoc.element.gulp-define-module.toString" id="apidoc.element.gulp-define-module.toString">
-        function <span class="apidocSignatureSpan">gulp-define-module.</span>toString
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">toString = function () {
-    return text;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-opts.context = _([file.defineModuleOptions, options])
-  .filter(_.identity).pluck('context')
-  .filter(_.identity).value();
-opts.require = _.merge.apply(null, _([file.defineModuleOptions, options, { require: {} }])
-  .filter(_.identity).pluck('require')
-  .filter(_.identity).value());
-
-var contents = file.contents.<span class="apidocCodeKeywordSpan">toString</span>();
-var name = path.basename(file.path, path.extname(file.path));
-var context = {
-  name: name,
-  file: file,
-  contents: contents
-};
-if (opts.wrapper) {
-...</pre></li>
     </ul>
 
 
